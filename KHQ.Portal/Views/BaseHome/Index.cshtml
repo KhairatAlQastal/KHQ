@@ -1,4 +1,7 @@
-﻿<div class="content">
+﻿@using KHQ.Domain
+@model List<KHQ.Domain.ViewModel.BaseHomeVM>
+
+<div class="content">
     <!-- Start Content-->
     <div class="container-fluid">
         <!-- start page title -->
@@ -8,7 +11,7 @@
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="/">Dashboards / </a></li>
-                            <li class="breadcrumb-item"><a href="/HomeSections">Home Sections / </a></li>
+                            <li class="breadcrumb-item">Home Sections / </li>
                             <li class="breadcrumb-item active">Base Home section</li>
                         </ol>
                     </div>
@@ -17,7 +20,6 @@
             </div>
         </div>
         <!-- end page title -->
-
         <div class="row">
             <div class="col-12">
                 <div class="card">
@@ -37,6 +39,46 @@
             </div> <!-- end col-->
         </div>
         <!-- end row-->
+        <div class="row">
+            <div class="col-xl-12">
+                <div id="accordion" class="mb-3">
+                    @if (Model != null && Model.Count != 0)
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <div class="card mb-1">
+                                <div class="card-header" id="heading@(item.Id)">
+                                    <h5 class="m-0">
+                                        <a class="collapsed" data-bs-toggle="collapse"
+                                           href="#collapse@(item.Id)" aria-expanded="false">
+                                            @((SectionType)item.SectionType)
+                                        </a>
+                                    </h5>
+                                </div>
+                                <div id="collapse@(item.Id)" class="collapse" aria-labelledby="heading@(item.Id)" data-bs-parent="#accordion">
+                                    <div class="card-body">
+                                        <ul>
+                                            <li>Title in English: <strong>@item.TitleEn</strong></li>
+                                            <li>Title in Arabic: <strong>@item.TitleAr</strong></li>
+                                            <li>Description in English: <strong>@item.DescriptionEn</strong></li>
+                                            <li>Description in Arabic: <strong>@item.DescriptionAr</strong></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="card mb-1">
+                            <div class="card-body">
+                                <p class="text-muted">No sections available.</p>
+                            </div>
+                        </div>
+                    }
+                </div> <!-- end #accordions-->
+            </div> <!-- end col -->
+        </div>
     </div>
 </div>
 
@@ -57,14 +99,15 @@
                 </div>
 
                 <form id="BaseHomeForm">
+                    <input type="hidden" id="hidden_id_section" />
                     <div class="mb-3">
                         <label for="section-select" class="form-label">Select the section</label>
                         <select class="form-select" id="section-select">
                             <option value="">-- Select Section --</option>
-                            <option value="AboutUs">About Us</option>
-                            <option value="Category">Category</option>
-                            <option value="FAQ">FAQ</option>
-                            <option value="Brands">Brands</option>
+                            <option value="1">About Us</option>
+                            <option value="2">Brands</option>
+                            <option value="3">Category</option>
+                            <option value="4">FAQ</option>
                         </select>
                     </div>
 
@@ -109,7 +152,6 @@
     </div>
 </div>
 
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/js/bootstrap.min.js"></script>
 
@@ -139,7 +181,7 @@
                 success: function (data) {
                     if (data && data.exists) {
                         currentSectionData = data;
-                        populateForm(data, sectionType);
+                        populateForm(data);
                     } else {
                         currentSectionData = null;
                         clearForm();
@@ -154,33 +196,12 @@
         }
 
         // Populate form with existing data
-        function populateForm(data, sectionType) {
-            switch(sectionType) {
-                case 'AboutUs':
-                    $('#title').val(data.aboutUsTitleEN || '');
-                    $('#titleAr').val(data.aboutUsTitleAR || '');
-                    $('#descriptionEn').val(data.aboutUsDescreptionEN || '');
-                    $('#descriptionAr').val(data.aboutUsDescreptionAR || '');
-                    break;
-                case 'Category':
-                    $('#title').val(data.categoryTitleEn || '');
-                    $('#titleAr').val(data.categoryTitleAr || '');
-                    $('#descriptionEn').val(data.categoryDescriptionEn || '');
-                    $('#descriptionAr').val(data.categoryDescriptionAr || '');
-                    break;
-                case 'FAQ':
-                    $('#title').val(data.faqTitleEn || '');
-                    $('#titleAr').val(data.faqTitleAr || '');
-                    $('#descriptionEn').val(data.faqDescriptionEn || '');
-                    $('#descriptionAr').val(data.faqDescriptionAr || '');
-                    break;
-                case 'Brands':
-                    $('#title').val(data.brandsTitleEn || '');
-                    $('#titleAr').val(data.brandsTitleAr || '');
-                    $('#descriptionEn').val(data.brandsDescriptionEn || '');
-                    $('#descriptionAr').val(data.brandsDescriptionAr || '');
-                    break;
-            }
+        function populateForm(data) {
+            $('#title').val(data.data.titleEn || '');
+            $('#titleAr').val(data.data.titleAr || '');
+            $('#descriptionEn').val(data.data.descriptionEn || '');
+            $('#descriptionAr').val(data.data.descriptionAr || '');
+            $('#hidden_id_section').val(data.data.id || '');
         }
 
         // Clear form
@@ -189,6 +210,7 @@
             $('#titleAr').val('');
             $('#descriptionEn').val('');
             $('#descriptionAr').val('');
+            $('#hidden_id_section').val('');
             hideValidationErrors();
         }
 
@@ -217,6 +239,7 @@
             formData.append('TitleAr', $('#titleAr').val());
             formData.append('DescriptionEn', $('#descriptionEn').val());
             formData.append('DescriptionAr', $('#descriptionAr').val());
+            formData.append('Id', $('#hidden_id_section').val());
 
             if (currentSectionData && currentSectionData.id) {
                 formData.append('Id', currentSectionData.id);

@@ -15,68 +15,9 @@ namespace KHQ.Portal.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            //var baseHomeData = await _BaseHomeService.GetAllAsync();
-            return View();
-        }
-
-        public async Task<IActionResult> GetById(Guid id)
-        {
-            var baseHomeData = await _BaseHomeService.GetByIdAsync(id);
+            var baseHomeData = await _BaseHomeService.GetAllAsync();
             return View(baseHomeData);
         }
-
-        [HttpGet]
-        public IActionResult Create()
-        {
-            return View();
-        }
-        [HttpPost]
-        public async Task<IActionResult> Add([FromBody] BaseHomeVM baseHome)
-        {
-            var baseHomeData = await _BaseHomeService.AddAsync(baseHome);
-            if (baseHomeData > 0)
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            else
-            {
-                return BadRequest();
-            }                
-        }
-
-
-        [HttpGet]
-        public IActionResult Update()
-        {
-            return View();
-        }
-        [HttpPost]
-        public async Task<IActionResult> Update([FromBody] BaseHomeVM baseHome)
-        {
-            var baseHomeData = await _BaseHomeService.UpdateAsync(baseHome);
-            if (baseHomeData > 0)
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            else
-            {
-                return BadRequest();
-            }
-        }
-
-        public async Task<IActionResult> Delete(Guid id)
-        {
-            var baseHomeData = await _BaseHomeService.DeleteAsync(id);
-            if (baseHomeData > 0)
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            else
-            {
-                return BadRequest();
-            }
-        }
-
 
         [HttpGet]
         public async Task<IActionResult> GetSectionData(int sectionType)
