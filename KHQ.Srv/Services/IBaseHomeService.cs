@@ -30,9 +30,10 @@ namespace KHQ.Srv.Services
         IQueryable<BaseHome> Queryable();
 
         // Get section data (returns the single BaseHome record)
-        Task<BaseHomeVM> GetSectionDataAsync(string sectionType);
+        Task<BaseHomeVM> GetSectionDataAsync(int sectionType);
         // Save/Update section data
-        Task<int> SaveSectionAsync(SaveSectionRequest request);
+        Task<int> SaveSectionAsync(BaseHomeVM request);
+
 
     }
 

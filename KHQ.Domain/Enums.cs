@@ -14,4 +14,12 @@ namespace KHQ.Domain
         Sliders = 4,
 
     }
+
+    public enum SectionType
+    {
+        AboutUs = 1 ,
+        Brands = 2 ,
+        Category = 3 ,
+        FAQ = 4 ,
+    }
 }

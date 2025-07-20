@@ -9,29 +9,10 @@ namespace KHQ.Domain.Entities
     public class BaseHome
     {
         public Guid Id { get; set; }
-        // About us 
-        public string? AboutUsTitleEN { get; set; }
-        public string? AboutUsTitleAR { get; set; }
-        public string? AboutUsDescreptionEN { get; set; }
-        public string? AboutUsDescreptionAR { get; set; }
-
-        // Category
-        public string? CategoryTitleEn { get; set; }
-        public string? CategoryTitleAr { get; set; }
-        public string? CategoryDescriptionEn { get; set; }
-        public string? CategoryDescriptionAr { get; set; }
-
-
-        // FAQ
-        public string? FAQTitleEn { get; set; }
-        public string? FAQTitleAr { get; set; }
-        public string? FAQDescriptionEn { get; set; }
-        public string? FAQDescriptionAr { get; set; }
-
-        // Brands 
-        public string? BrandsTitleEn { get; set; }
-        public string? BrandsTitleAr { get; set; }
-        public string? BrandsDescriptionEn { get; set; }
-        public string? BrandsDescriptionAr { get; set; }
+        public int SectionType { get; set; }
+        public string TitleEn { get; set; }
+        public string TitleAr { get; set; }
+        public string DescriptionEn { get; set; }
+        public string DescriptionAr { get; set; }
     }
 }

@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
+using Azure.Core;
+using Humanizer;
 using KHQ.Domain.DTOs;
 using KHQ.Domain.Entities;
 using KHQ.Domain.ViewModel;
 using KHQ.Repo.Repositories;
 using KHQ.Repo.UOW;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -76,25 +79,22 @@ namespace KHQ.Srv.Services
         }
 
 
-        public async Task<BaseHomeVM> GetSectionDataAsync(string sectionType)
+        public async Task<BaseHomeVM> GetSectionDataAsync(int sectionType)
         {
-            var entities = await _unitOfWork.Repository<BaseHome>().GetAllAsync();
-
-            var entity = entities.FirstOrDefault();
+            var entity = await _unitOfWork.Repository<BaseHome>().Queryable().Where(x =>x.SectionType == sectionType).FirstOrDefaultAsync();
 
             if (entity == null) return null;
 
             return _mapper.Map<BaseHomeVM>(entity);
         }
 
-        public async Task<int> SaveSectionAsync(SaveSectionRequest request)
+        public async Task<int> SaveSectionAsync(BaseHomeVM request)
         {
-            var entities = await _unitOfWork.Repository<BaseHome>().GetAllAsync();
-            var entity = entities.FirstOrDefault();
+            var entity = _mapper.Map<BaseHome>(request);
 
-            if (entity == null)
+            if (request.Id == Guid.Empty)
             {
-                entity = new BaseHome { Id = Guid.NewGuid() };
+                // insert 
                 await _unitOfWork.Repository<BaseHome>().AddAsync(entity);
             }
             else
@@ -103,46 +103,9 @@ namespace KHQ.Srv.Services
                 _unitOfWork.Repository<BaseHome>().Update(entity);
             }
 
-            // Update the specific section based on sectionType
-            switch (request.SectionType)
-            {
-                case "AboutUs":
-                    entity.AboutUsTitleEN = request.TitleEn;
-                    entity.AboutUsTitleAR = request.TitleAr;
-                    entity.AboutUsDescreptionEN = request.DescriptionEn;
-                    entity.AboutUsDescreptionAR = request.DescriptionAr;
-                    break;
-                case "Category":
-                    entity.CategoryTitleEn = request.TitleEn;
-                    entity.CategoryTitleAr = request.TitleAr;
-                    entity.CategoryDescriptionEn = request.DescriptionEn;
-                    entity.CategoryDescriptionAr = request.DescriptionAr;
-                    break;
-                case "FAQ":
-                    entity.FAQTitleEn = request.TitleEn;
-                    entity.FAQTitleAr = request.TitleAr;
-                    entity.FAQDescriptionEn = request.DescriptionEn;
-                    entity.FAQDescriptionAr = request.DescriptionAr;
-                    break;
-                case "Brands":
-                    entity.BrandsTitleEn = request.TitleEn;
-                    entity.BrandsTitleAr = request.TitleAr;
-                    entity.BrandsDescriptionEn = request.DescriptionEn;
-                    entity.BrandsDescriptionAr = request.DescriptionAr;
-                    break;
-            }
 
             return await _unitOfWork.SaveChangesAsync();
         }
     }
 }
 
-public class SaveSectionRequest
-{
-    public Guid? Id { get; set; }
-    public string SectionType { get; set; }
-    public string TitleEn { get; set; }
-    public string TitleAr { get; set; }
-    public string DescriptionEn { get; set; }
-    public string DescriptionAr { get; set; }
-}

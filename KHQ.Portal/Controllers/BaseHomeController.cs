@@ -79,7 +79,7 @@ namespace KHQ.Portal.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> GetSectionData(string sectionType)
+        public async Task<IActionResult> GetSectionData(int sectionType)
         {
             try
             {
@@ -97,7 +97,7 @@ namespace KHQ.Portal.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SaveSection(SaveSectionRequest request)
+        public async Task<IActionResult> SaveSection(BaseHomeVM request)
         {
             try
             {

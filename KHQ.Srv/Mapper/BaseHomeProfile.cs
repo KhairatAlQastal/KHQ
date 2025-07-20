@@ -16,10 +16,10 @@ namespace KHQ.Srv.Mapper
     {
         public BaseHomeProfile()
         {
-            CreateMap<BaseHome, BaseHomeDto>().ForMember(dest => dest.AboutUsTitle, opt => opt.MapFrom(src =>
+            CreateMap<BaseHome, BaseHomeDto>().ForMember(dest => dest.Title, opt => opt.MapFrom(src =>
                 CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "ar"
-                    ? src.AboutUsTitleAR
-                    : src.AboutUsTitleEN
+                    ? src.TitleAr
+                    : src.TitleEn
             ));
 
             CreateMap<BaseHome, BaseHomeVM>().ReverseMap();
