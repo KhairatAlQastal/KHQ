@@ -1,0 +1,319 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-topbar-color="dark">
+
+
+<!-- Mirrored from coderthemes.com/ubold/layouts/default/dashboard-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 28 Sep 2023 09:11:12 GMT -->
+<head>
+    <meta charset="utf-8" />
+    <title>Khayrat Al-Qastal Co.Ltd. | Admin Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="" name="description" />
+    <meta content="Coderthemes" name="author" />
+
+    <link href="~/Font-Awesome-Pro-6.2.1-main/Font-Awesome-Pro-6.2.1-main/css/all.min.css" rel="stylesheet" />
+
+    <!-- App favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="~/images/favicon.png" />
+
+    <!-- plugin css -->
+    <link href="~/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css" />
+
+    <!-- Theme Config Js -->
+    <script src="~/js/head.js"></script>
+
+    <!-- Bootstrap css -->
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" type="text/css" id="app-style" />
+
+    <!-- App css -->
+    <link href="~/css/app.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- Icons css -->
+    <link href="~/css/icons.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- Site css -->
+    <link href="~/Site.css" rel="stylesheet" />
+
+</head>
+
+<body>
+
+    <!-- Begin page -->
+    <div id="wrapper">
+        <!-- ========== Menu ========== -->
+        <div class="app-menu">
+            <!-- Brand Logo -->
+            <div class="logo-box">
+                <!-- Brand Logo Light -->
+                <a href="/" class="logo-light">
+                    <img src="~/images/logo-light.png" alt="logo" class="logo-lg">
+                    <img src="~/images/logo-sm.png" alt="small logo" class="logo-sm">
+                </a>
+                <!-- Brand Logo Dark -->
+                <a href="/" class="logo-dark">
+                    <img src="~/images/logo-dark.png" alt="dark logo" class="logo-lg">
+                    <img src="~/images/logo-sm.png" alt="small logo" class="logo-sm">
+                </a>
+            </div>
+
+            <!-- menu-left -->
+            <div class="scrollbar">
+                <!-- User box -->
+                <div class="user-box text-center">
+                    <i class="fa-duotone fa-circle-user fontsize-32"></i>
+                    <div class="dropdown">
+                        <a href="javascript: void(0);" class="dropdown-toggle h5 mb-1 d-block" data-bs-toggle="dropdown"> @User.Identity.Name</a>
+                        <div class="dropdown-menu user-pro-dropdown">
+                            <!-- item-->
+                            <a asp-controller="Account" asp-action="Logout" class="dropdown-item notify-item">
+                                <i class="fa-regular fa-arrow-right-from-bracket"></i>
+                                <span>Logout</span>
+                            </a>
+
+                        </div>
+                    </div>
+                    <p class="text-muted mb-0">Admin Head</p>
+                </div>
+                <!--- Menu -->
+                <ul class="menu">
+                    <li class="menu-title">Navigation</li>
+                    <li class="menu-item">
+                        <a href="/home/index" class="menu-link">
+                            <span class="menu-icon"><i class="fa-regular fa-airplay"></i></span>
+                            <span class="menu-text"> Dashboards </span>
+                        </a>
+                    </li>
+                    <li class="menu-title">Pages</li>
+                    <li class="menu-item">
+                        <a href="#menuLayoutPage" data-bs-toggle="collapse" class="menu-link">
+                            <span class="menu-icon"><i class="fa-light fa-table-layout"></i></span>
+                            <span class="menu-text"> Layout page </span>
+                            <span class="fa-solid fa-chevron-right"></span>
+                        </a>
+                        <div class="collapse" id="menuLayoutPage">
+                            <ul class="sub-menu">
+                                <li class="menu-item">
+                                    <a href="/LayoutPage/HeaderSection" class="menu-link">
+                                        <span class="menu-text">Header section</span>
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="/LayoutPage/FooterSection" class="menu-link">
+                                        <span class="menu-text">Footer section</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#menuHomePage" data-bs-toggle="collapse" class="menu-link">
+                            <span class="menu-icon"><i class="fa-light fa-house"></i></span>
+                            <span class="menu-text"> Home page </span>
+                            <span class="fa-solid fa-chevron-right"></span>
+                        </a>
+                        <div class="collapse" id="menuHomePage">
+                            <ul class="sub-menu">
+                                <li class="menu-item">
+                                    <a href="/BaseHome/Index" class="menu-link">
+                                        <span class="menu-text">Base Home section</span>
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="/Slider/Index" class="menu-link">
+                                        <span class="menu-text">Slider section</span>
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="/H_AboutUs/Index" class="menu-link">
+                                        <span class="menu-text">About us section</span>
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="/FAQ/Index" class="menu-link">
+                                        <span class="menu-text">FAQ section</span>
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="/E_Con_Inner/Index" class="menu-link">
+                                        <span class="menu-text">E-=_Con_Inner Section</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#menuAboutusPage" data-bs-toggle="collapse" class="menu-link">
+                            <span class="menu-icon"><i class="fa-light fa-address-card"></i></span>
+                            <span class="menu-text"> About us page </span>
+                            <span class="fa-solid fa-chevron-right"></span>
+                        </a>
+                        <div class="collapse" id="menuAboutusPage">
+                            <ul class="sub-menu">
+                                <li class="menu-item">
+                                    <a href="/AboutusPage/CoverSection" class="menu-link">
+                                        <span class="menu-text">Cover section</span>
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="/AboutusPage/OverviewOfTheCompanySection" class="menu-link">
+                                        <span class="menu-text">Overview of the<br /> company section</span>
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="/AboutusPage/VisionSection" class="menu-link">
+                                        <span class="menu-text">Vision section</span>
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="/AboutusPage/ValuesSection" class="menu-link">
+                                        <span class="menu-text">Values section</span>
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="/AboutusPage/AboutUs_OurCapabilities" class="menu-link">
+                                        <span class="menu-text">About us our <br />capabilities section</span>
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="/AboutusPage/MarketingSupportSection" class="menu-link">
+                                        <span class="menu-text">Marketing support <br />section</span>
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="/AboutusPage/EmployeeAwardSection" class="menu-link">
+                                        <span class="menu-text">Employee award <br />section</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="menu-item">
+                        <a href="/Brands/Index" class="menu-link">
+                            <span class="menu-icon"><i class="fa-regular fa-airplay"></i></span>
+                            <span class="menu-text"> Brands </span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#menuContactusPage" data-bs-toggle="collapse" class="menu-link">
+                            <span class="menu-icon"><i class="fa-light fa-folder-user"></i></span>
+                            <span class="menu-text"> Contact us page </span>
+                            <span class="fa-solid fa-chevron-right"></span>
+                        </a>
+                        <div class="collapse" id="menuContactusPage">
+                            <ul class="sub-menu">
+                                <li class="menu-item">
+                                    <a href="/ContactusPage/HeadSection" class="menu-link">
+                                        <span class="menu-text">Cover section</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+                <!--- End Menu -->
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <!-- ========== Left menu End ========== -->
+        <div class="content-page">
+            <!-- ========== Topbar Start ========== -->
+            <div class="navbar-custom">
+                <div class="topbar">
+                    <div class="topbar-menu d-flex align-items-center gap-1">
+                        <!-- Topbar Brand Logo -->
+                        <div class="logo-box">
+                            <!-- Brand Logo Light -->
+                            <a href="/" class="logo-light">
+                                <img src="~/images/logo-light.png" alt="logo" class="logo-lg">
+                                <img src="~/images/logo-sm.png" alt="small logo" class="logo-sm">
+                            </a>
+
+                            <!-- Brand Logo Dark -->
+                            <a href="/" class="logo-dark">
+                                <img src="~/images/logo-dark.png" alt="dark logo" class="logo-lg">
+                                <img src="~/images/logo-sm.png" alt="small logo" class="logo-sm">
+                            </a>
+                        </div>
+
+                        <!-- Sidebar Menu Toggle Button -->
+                        <button class="button-toggle-menu">
+                            <i class="fa-regular fa-bars"></i>
+                        </button>
+                    </div>
+
+                    <ul class="topbar-menu d-flex align-items-center">
+                        <!-- Fullscreen Button -->
+                        <li class="d-none d-md-inline-block">
+                            <a class="nav-link waves-effect waves-light" href="#" data-toggle="fullscreen">
+                                <i class="fa-regular fa-expand font-22"></i>
+                            </a>
+                        </li>
+                        <!-- Light/Darj Mode Toggle Button -->
+                        <li class="d-none d-sm-inline-block">
+                            <div class="nav-link waves-effect waves-light" id="light-dark-mode">
+                                <i class="fa-light fa-moon font-22"></i>
+                            </div>
+                        </li>
+                        <!-- User Dropdown -->
+                        <li class="dropdown">
+                            <a class="nav-link dropdown-toggle nav-user me-0 waves-effect waves-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                <i class="fa-duotone fa-circle-user fontsize-32"></i>
+                                <span class="ms-1 d-none d-md-inline-block">
+                                    @User.Identity.Name <i class="fa-regular fa-chevron-down"></i>
+                                </span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end profile-dropdown ">
+                                <!-- item-->
+                                <div class="dropdown-header noti-title">
+                                    <h6 class="text-overflow m-0">Welcome !</h6>
+                                </div>
+
+                                <div class="dropdown-divider"></div>
+
+                                <!-- item-->
+                                <a asp-controller="Account" asp-action="Logout" class="dropdown-item notify-item">
+                                    <i class="fa-regular fa-arrow-right-from-bracket"></i>
+                                    <span>Logout</span>
+                                </a>
+
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- ========== Topbar End ========== -->
+            <!-- Start Content-->
+            @RenderBody()
+            <!--End content -->
+            <!-- Footer Start -->
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div>
+                                <script>document.write(new Date().getFullYear())</script> © Yousef Nader & Sons Co.Ltd. | Admin Dashboard - <a href="http://naderco.majesticagency.net/" target="_blank">Naderco.com</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+            <!-- end Footer -->
+        </div>
+    </div>
+    <!-- END wrapper -->
+    <!-- Vendor js -->
+    <script src="~/js/vendor.min.js"></script>
+
+    <!-- App js -->
+    <script src="~/js/app.min.js"></script>
+
+    <!-- Plugins js-->
+    <script src="~/js/pages/sparkline.init.js"></script>
+    <script src="~/js/pages/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js"></script>
+    <script src="~/js/pages/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js"></script>
+
+    <!-- Dashboard 2 init -->
+    <script src="~/js/pages/dashboard-2.init.js"></script>
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>

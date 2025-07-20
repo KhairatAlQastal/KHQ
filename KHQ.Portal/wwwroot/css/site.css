@@ -1,0 +1,24 @@
+html {
+    font-size: 14px;
+    font-family: Poppins, sans-serif !important;
+}
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&amp;display=swap");
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+        font-family: Poppins, sans-serif !important;
+    }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+.field-validation-error{
+    color:red;
+}

@@ -1,0 +1,73 @@
+﻿p, h1, h2, h3, h4, h5, a {
+    font-family: Poppins, sans-serif !important;
+}
+
+.logo-box .logo-lg{
+    height:35px;
+}
+.logo-box .logo-sm{
+    height:35px;
+}
+.fontsize-32{
+    font-size:32px;
+}
+.fontsize-80 {
+    font-size: 80px;
+}
+span.fa-solid.fa-chevron-right{
+    margin-left:auto;
+}
+.sub-menu{
+    width:fit-content;
+}
+.breadcrumb-item + .breadcrumb-item::before{
+    content:none;
+}
+i.fa-light.fa-pen-to-square.font-20 {
+    color: #32864f;
+}
+.btn-submit {
+    background: #1D9DD8;
+    border: 0;
+}
+.display-none{
+    display:none;
+}
+.alert-success, .alert-success-edit {
+    align-items: center;
+    gap: 8px;
+}
+    .alert-success i, .alert-success-edit i{
+        font-size: 18px;
+    }
+
+.badge {
+    font-size: 20px !important;
+    background: #0000004a !important;
+}
+.OverviewImg{
+    max-height: 550px;
+    width:100%;
+    object-fit:fill;
+}
+.card-header {
+    font-size: 25px;
+    font-weight: 700;
+    padding-bottom: 0;
+}
+.btn-primary {
+    --ct-btn-bg: #1BBCE8;
+    --ct-btn-border-color: #364191;
+}
+/*.btn:hover {
+    border-color: #1BBCE8;
+    background-color: #364191;
+}*/
+.Icon-Values{
+    max-width : 120px;
+    max-height: 120px;
+}
+
+
+
+

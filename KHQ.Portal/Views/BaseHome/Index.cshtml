@@ -1,0 +1,293 @@
+﻿<div class="content">
+    <!-- Start Content-->
+    <div class="container-fluid">
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box">
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="/">Dashboards / </a></li>
+                            <li class="breadcrumb-item"><a href="/HomeSections">Home Sections / </a></li>
+                            <li class="breadcrumb-item active">Base Home section</li>
+                        </ol>
+                    </div>
+                    <h4 class="page-title">Base Home section</h4>
+                </div>
+            </div>
+        </div>
+        <!-- end page title -->
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row justify-content-end">
+                            <div class="col-auto">
+                                <div class="text-lg-end my-1 my-lg-0">
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#add-modal">
+                                        <i class="fa-regular fa-circle-plus"></i> Add/Edit Section
+                                    </button>
+                                </div>
+                            </div><!-- end col-->
+                        </div> <!-- end row -->
+                    </div>
+                </div> <!-- end card -->
+            </div> <!-- end col-->
+        </div>
+        <!-- end row-->
+    </div>
+</div>
+
+<!-- Add/Edit modal content -->
+<div id="add-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Manage Home Sections</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-success display-none">
+                    <i class="fa-sharp fa-light fa-circle-check"></i> Section saved successfully.
+                </div>
+                <div class="alert alert-danger display-none" id="error-alert">
+                    <i class="fa-sharp fa-light fa-circle-exclamation"></i> <span id="error-message"></span>
+                </div>
+
+                <form id="BaseHomeForm">
+                    <div class="mb-3">
+                        <label for="section-select" class="form-label">Select the section</label>
+                        <select class="form-select" id="section-select">
+                            <option value="">-- Select Section --</option>
+                            <option value="AboutUs">About Us</option>
+                            <option value="Category">Category</option>
+                            <option value="FAQ">FAQ</option>
+                            <option value="Brands">Brands</option>
+                        </select>
+                    </div>
+
+                    <div id="section-form" class="display-none">
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Title in English:</label>
+                            <input class="form-control" type="text" id="title"
+                                   placeholder="Enter title in English">
+                            <span class="validationTitle text-danger display-none">* This field is required</span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="titleAr" class="form-label">Title in Arabic:</label>
+                            <input class="form-control" type="text" id="titleAr"
+                                   placeholder="Enter title in Arabic">
+                            <span class="validationTitleAr text-danger display-none">* This field is required</span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="descriptionEn" class="form-label">Description in English:</label>
+                            <textarea class="form-control" id="descriptionEn" rows="4"
+                                      placeholder="Enter description in English"></textarea>
+                            <span class="validationDescriptionEn text-danger display-none">* This field is required</span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="descriptionAr" class="form-label">Description in Arabic:</label>
+                            <textarea class="form-control" id="descriptionAr" rows="4"
+                                      placeholder="Enter description in Arabic"></textarea>
+                            <span class="validationDescriptionAr text-danger display-none">* This field is required</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-2 text-center">
+                        <button class="btn btn-primary" id="SaveBaseHomeSectionsbtn" type="button">
+                            Save Section
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/js/bootstrap.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        let currentSectionData = null;
+
+        // Handle section selection
+        $('#section-select').change(function () {
+            var selectedSection = $(this).val();
+
+            if (selectedSection) {
+                $('#section-form').removeClass('display-none');
+                loadSectionData(selectedSection);
+            } else {
+                $('#section-form').addClass('display-none');
+                clearForm();
+            }
+        });
+
+        // Load section data if exists
+        function loadSectionData(sectionType) {
+            $.ajax({
+                url: '/BaseHome/GetSectionData',
+                type: 'GET',
+                data: { sectionType: sectionType },
+                success: function (data) {
+                    if (data && data.exists) {
+                        currentSectionData = data;
+                        populateForm(data, sectionType);
+                    } else {
+                        currentSectionData = null;
+                        clearForm();
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.log('Error loading section data:', xhr.responseText);
+                    currentSectionData = null;
+                    clearForm();
+                }
+            });
+        }
+
+        // Populate form with existing data
+        function populateForm(data, sectionType) {
+            switch(sectionType) {
+                case 'AboutUs':
+                    $('#title').val(data.aboutUsTitleEN || '');
+                    $('#titleAr').val(data.aboutUsTitleAR || '');
+                    $('#descriptionEn').val(data.aboutUsDescreptionEN || '');
+                    $('#descriptionAr').val(data.aboutUsDescreptionAR || '');
+                    break;
+                case 'Category':
+                    $('#title').val(data.categoryTitleEn || '');
+                    $('#titleAr').val(data.categoryTitleAr || '');
+                    $('#descriptionEn').val(data.categoryDescriptionEn || '');
+                    $('#descriptionAr').val(data.categoryDescriptionAr || '');
+                    break;
+                case 'FAQ':
+                    $('#title').val(data.faqTitleEn || '');
+                    $('#titleAr').val(data.faqTitleAr || '');
+                    $('#descriptionEn').val(data.faqDescriptionEn || '');
+                    $('#descriptionAr').val(data.faqDescriptionAr || '');
+                    break;
+                case 'Brands':
+                    $('#title').val(data.brandsTitleEn || '');
+                    $('#titleAr').val(data.brandsTitleAr || '');
+                    $('#descriptionEn').val(data.brandsDescriptionEn || '');
+                    $('#descriptionAr').val(data.brandsDescriptionAr || '');
+                    break;
+            }
+        }
+
+        // Clear form
+        function clearForm() {
+            $('#title').val('');
+            $('#titleAr').val('');
+            $('#descriptionEn').val('');
+            $('#descriptionAr').val('');
+            hideValidationErrors();
+        }
+
+        // Hide validation errors
+        function hideValidationErrors() {
+            $('.text-danger').addClass('display-none');
+        }
+
+        // Save section
+        $('#SaveBaseHomeSectionsbtn').click(function () {
+            var selectedSection = $('#section-select').val();
+
+            if (!selectedSection) {
+                showError('Please select a section first.');
+                return;
+            }
+
+            if (!validateForm()) {
+                return;
+            }
+
+            var formData = new FormData();
+            debugger
+            formData.append('SectionType', selectedSection);
+            formData.append('TitleEn', $('#title').val());
+            formData.append('TitleAr', $('#titleAr').val());
+            formData.append('DescriptionEn', $('#descriptionEn').val());
+            formData.append('DescriptionAr', $('#descriptionAr').val());
+
+            if (currentSectionData && currentSectionData.id) {
+                formData.append('Id', currentSectionData.id);
+            }
+
+            $.ajax({
+                url: '/BaseHome/SaveSection',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (result) {
+                    showSuccess();
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1500);
+                },
+                error: function (xhr, status, error) {
+                    showError('Error saving section: ' + xhr.responseText);
+                }
+            });
+        });
+
+        // Validation
+        function validateForm() {
+            var isValid = true;
+            hideValidationErrors();
+
+            if ($('#title').val().trim() === '') {
+                $('.validationTitle').removeClass('display-none');
+                isValid = false;
+            }
+
+            if ($('#titleAr').val().trim() === '') {
+                $('.validationTitleAr').removeClass('display-none');
+                isValid = false;
+            }
+
+            if ($('#descriptionEn').val().trim() === '') {
+                $('.validationDescriptionEn').removeClass('display-none');
+                isValid = false;
+            }
+
+            if ($('#descriptionAr').val().trim() === '') {
+                $('.validationDescriptionAr').removeClass('display-none');
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        // Show success message
+        function showSuccess() {
+            $('.alert-success').removeClass('display-none').addClass('d-flex');
+            $('.alert-danger').addClass('display-none');
+        }
+
+        // Show error message
+        function showError(message) {
+            $('#error-message').text(message);
+            $('.alert-danger').removeClass('display-none').addClass('d-flex');
+            $('.alert-success').addClass('display-none');
+        }
+
+        // Reset form when modal is closed
+        $('#add-modal').on('hidden.bs.modal', function () {
+            $('#section-select').val('');
+            $('#section-form').addClass('display-none');
+            clearForm();
+            $('.alert-success, .alert-danger').addClass('display-none');
+            currentSectionData = null;
+        });
+    });
+</script>

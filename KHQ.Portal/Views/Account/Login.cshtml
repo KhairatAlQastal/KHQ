@@ -1,0 +1,65 @@
+﻿@model KHQ.Domain.DTOs.UserLogin
+<style>
+    .footer, .navbar-custom, .app-menu {
+        display:none;
+    }
+
+    .field-validation-error, .validation-summary-errors {
+        color: red;
+    }
+</style>
+
+<div class="account-pages mt-5 mb-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6 col-xl-4">
+                <div class="card bg-pattern">
+
+                    <div class="card-body p-4">
+
+                        <div class="text-center w-75 m-auto">
+                            <div class="auth-brand">
+                                <a href="/" class="logo logo-dark text-center">
+                                    <span class="logo-lg">
+                                        <img src="~/images/logo-dark.png" alt="" height="45">
+                                    </span>
+                                </a>
+
+                                <a href="/" class="logo logo-light text-center">
+                                    <span class="logo-lg">
+                                        <img src="~/images/logo-dark.png" alt="" height="45">
+                                    </span>
+                                </a>
+                            </div>
+                            <p class="text-muted mb-4 mt-3">Enter your email address and password to access admin panel.</p>
+                        </div>
+                        <div class="alert" role="alert" asp-validation-summary="ModelOnly" class="text-danger" style="margin: 0;padding: 10px;margin-top: 30px;"></div>
+
+                        <form method="post" asp-controller="Account" asp-action="Login">
+
+
+                            <div class="mb-3">
+                                <label for="emailaddress" class="form-label">Email address</label>
+                                <input class="form-control" asp-for="Email" type="email" id="emailaddress" required="" placeholder="Enter your email">
+                                <span asp-validation-for="Email" class=field-validation-valid data-valmsg-for=Email data-valmsg-replace=true></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="password" asp-for="Password" id="password" class="form-control" placeholder="Enter your password">
+                                </div>
+                            </div>
+                            <span asp-validation-for="Password" class=field-validation-valid data-valmsg-for=Password data-valmsg-replace=true></span>
+
+                            <div class="text-center d-grid">
+                                <button class="btn btn-primary" type="submit"> Log In </button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
