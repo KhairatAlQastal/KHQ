@@ -1,0 +1,339 @@
+﻿<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.css">
+<style>
+    .content {
+        padding: 30px;
+    }
+
+    .dropzone {
+        border: 3px dashed #6658dd;
+        border-radius: 15px;
+        background: linear-gradient(135deg, #f8faff 0%, #f0f4ff 100%);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .dropzone:hover {
+            border-color: #6658dd;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(79, 172, 254, 0.2);
+        }
+
+        .dropzone.dz-drag-hover {
+            border-color: #6658dd;
+            background: linear-gradient(135deg, #e8f2ff 0%, #d4e8ff 100%);
+            transform: scale(1.02);
+        }
+
+        .dropzone .dz-message {
+            text-align: center;
+            margin: 2em 0;
+            color: #6658dd;
+            font-size: 1.2em;
+        }
+
+    .photo-order{
+        display:none;
+    }
+
+    .sortable-container {
+        margin-top: 30px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+    }
+
+    .photo-item {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        cursor: grab;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+        .photo-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+
+        .photo-item:active {
+            cursor: grabbing;
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            display: block;
+        }
+
+    .photo-info {
+        padding: 15px;
+    }
+
+    .photo-name {
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 5px;
+        font-size: 0.9em;
+    }
+
+    .photo-size {
+        color: #666;
+        font-size: 0.8em;
+    }
+
+    .remove-btn {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background: #f1556c;
+        color: white;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.3s ease;
+    }
+
+        .remove-btn:hover {
+            transform: scale(1.1);
+        }
+
+    .drag-ghost {
+        opacity: 0.5;
+        transform: rotate(5deg);
+    }
+</style>
+
+
+<div class="content">
+    <!-- Start Content-->
+    <div class="container-fluid">
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box">
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="/">Dashboards / </a></li>
+                            <li class="breadcrumb-item">Home Sections / </li>
+                            <li class="breadcrumb-item active">Base Home section</li>
+                        </ol>
+                    </div>
+                    <h4 class="page-title">Base Home section</h4>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row justify-content-end">
+                            <div class="col-auto">
+                                <div class="text-lg-end my-1 my-lg-0">
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#add-modal">
+                                        <i class="fa-regular fa-circle-plus"></i> Add Slider
+                                    </button>
+                                </div>
+                            </div><!-- end col-->
+                        </div> <!-- end row -->
+                    </div>
+                </div> <!-- end card -->
+            </div> <!-- end col-->
+        </div>
+        <!-- end page title -->
+        <!-- end row-->
+    </div>
+</div>
+
+<div id="add-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Manage Slider Sections</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-success display-none">
+                    <i class="fa-sharp fa-light fa-circle-check"></i> Section saved successfully.
+                </div>
+                <div class="alert alert-danger display-none" id="error-alert">
+                    <i class="fa-sharp fa-light fa-circle-exclamation"></i> <span id="error-message"></span>
+                </div>
+
+                <form action="/upload" class="dropzone" id="photo-dropzone">
+                    <div class="dz-message">
+                        <strong>📁 Drop photos here or click to browse</strong><br>
+                        <span style="font-size: 0.9em; opacity: 0.7;">Multiple files supported</span>
+                    </div>
+                </form>
+
+                <div class="sortable-container" id="sortable-photos"></div>
+
+                <div class="mb-2 text-center">
+                    <button class="btn btn-primary" id="SaveBaseHomeSectionsbtn" type="button">
+                        Save Section
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
+
+<script>
+    // Disable auto-discover for all elements
+    Dropzone.autoDiscover = false;
+
+    let uploadedPhotos = [];
+    let photoCounter = 0;
+
+    // Initialize Dropzone
+    const photoDropzone = new Dropzone("#photo-dropzone", {
+        url: "/upload", // This would be your actual upload endpoint
+        paramName: "photos",
+        maxFilesize: 10, // MB
+        acceptedFiles: "image/*",
+        addRemoveLinks: false,
+        autoProcessQueue: false, // Don't upload automatically
+        parallelUploads: 10,
+        uploadMultiple: true,
+
+        init: function() {
+            this.on("addedfile", function(file) {
+                // Don't show default preview
+                this.removeFile(file);
+
+                // Add to our custom gallery
+                addPhotoToGallery(file);
+            });
+
+            this.on("error", function(file, message) {
+                alert("Upload error: " + message);
+            });
+        }
+    });
+
+    function addPhotoToGallery(file) {
+        photoCounter++;
+        const photoId = 'photo-' + photoCounter;
+
+        const photoItem = document.createElement('div');
+        photoItem.className = 'photo-item';
+        photoItem.dataset.photoId = photoId;
+
+        // Create image preview
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            photoItem.innerHTML = `
+                <div class="photo-order"></div>
+                <div class="remove-btn" onclick="removePhoto('${photoId}')">×</div>
+                <img src="${e.target.result}" alt="${file.name}">
+                <div class="photo-info">
+                    <div class="photo-name">${file.name}</div>
+                    <div class="photo-size">${(file.size / 1024 / 1024).toFixed(2)} MB</div>
+                </div>
+            `;
+        };
+        reader.readAsDataURL(file);
+
+        // Store photo data
+        uploadedPhotos.push({
+            id: photoId,
+            file: file,
+            element: photoItem
+        });
+
+        // Add to gallery
+        document.getElementById('sortable-photos').appendChild(photoItem);
+
+        // Add entrance animation
+        setTimeout(() => {
+            photoItem.style.opacity = '0';
+            photoItem.style.transform = 'translateY(20px)';
+            photoItem.style.transition = 'all 0.3s ease';
+
+            setTimeout(() => {
+                photoItem.style.opacity = '1';
+                photoItem.style.transform = 'translateY(0)';
+            }, 50);
+        }, 50);
+    }
+
+    // Initialize Sortable
+    const sortableContainer = document.getElementById('sortable-photos');
+    new Sortable(sortableContainer, {
+        animation: 150,
+        ghostClass: 'drag-ghost',
+        onEnd: function(evt) {
+            updatePhotoOrder();
+            updateOrderNumbers();
+        }
+    });
+
+    function updatePhotoOrder() {
+        const photoElements = sortableContainer.querySelectorAll('.photo-item');
+        const newOrder = [];
+
+        photoElements.forEach((element) => {
+            const photoId = element.dataset.photoId;
+            const photo = uploadedPhotos.find(p => p.id === photoId);
+            if (photo) {
+                newOrder.push(photo);
+            }
+        });
+
+        uploadedPhotos = newOrder;
+    }
+
+    function updateOrderNumbers() {
+        const photoElements = sortableContainer.querySelectorAll('.photo-item');
+        photoElements.forEach((element, index) => {
+            const orderElement = element.querySelector('.photo-order');
+            if (orderElement) {
+                orderElement.textContent = index + 1;
+            }
+        });
+    }
+
+    function removePhoto(photoId) {
+        // Remove from array
+        uploadedPhotos = uploadedPhotos.filter(photo => photo.id !== photoId);
+
+        // Remove from DOM with animation
+        const element = document.querySelector(`[data-photo-id="${photoId}"]`);
+        if (element) {
+            element.style.transition = 'all 0.3s ease';
+            element.style.opacity = '0';
+            element.style.transform = 'scale(0.8)';
+
+            setTimeout(() => {
+                element.remove();
+                updateOrderNumbers();
+            }, 300);
+        }
+    }
+
+    // Add some visual feedback for drag operations
+    document.addEventListener('dragstart', function(e) {
+        if (e.target.closest('.photo-item')) {
+            e.target.closest('.photo-item').style.cursor = 'grabbing';
+        }
+    });
+
+    document.addEventListener('dragend', function(e) {
+        if (e.target.closest('.photo-item')) {
+            e.target.closest('.photo-item').style.cursor = 'grab';
+        }
+    });
+</script>
