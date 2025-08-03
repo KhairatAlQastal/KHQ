@@ -24,7 +24,7 @@ namespace KHQ.Portal.Controllers
 
         public async Task<IActionResult> GetById(Guid id)
         {
-            var sliderData = await _sliderSrv.GetByIdAsync(id);
+            var sliderData = await _sliderSrv.GetByIdAsync(id); 
             return View(sliderData);
         }
 
