@@ -14,13 +14,13 @@ namespace KHQ.Repo.Mapping
     {
         public void Configure(EntityTypeBuilder<Slider> builder)
         {
-            builder.OwnsMany(x => x.SliderImages, slider =>
-            {
-                slider.ToTable(typeof(SliderImages).Name.Pluralize());
-                slider.HasKey(x => x.Id);
-                slider.Property(x => x.SliderId).IsRequired();
-                slider.Property(x => x.ImagePath).IsRequired();
-            });
+            //builder.OwnsMany(x => x.SliderImages, slider =>
+            //{
+            //    slider.ToTable(typeof(SliderImages).Name.Pluralize());
+            //    slider.HasKey(x => x.Id);
+            //    slider.Property(x => x.SliderId).IsRequired();
+            //    slider.Property(x => x.ImagePath).IsRequired();
+            //});
         }
     }
 }

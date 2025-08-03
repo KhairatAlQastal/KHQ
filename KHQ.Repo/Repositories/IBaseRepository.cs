@@ -11,6 +11,7 @@ namespace KHQ.Repo.Repositories
         Task<T?> GetByIdAsync(object id);
         Task<IEnumerable<T>> GetAllAsync();
         Task AddAsync(T entity);
+        Task AddRange(List<T> entities);
         void Update(T entity);
         void Delete(T entity);
         IQueryable<T> Queryable(); // For LINQ support

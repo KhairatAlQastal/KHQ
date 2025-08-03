@@ -27,6 +27,10 @@ namespace KHQ.Srv.Mapper
 
             CreateMap<Slider, SliderVM>().ReverseMap();
             CreateMap<SliderVM, Slider>().ReverseMap();
+
+            //CreateMap<Slider, SliderDto>()
+            //.ForMember(dest => dest.ImagePath,
+            //    opt => opt.MapFrom(src => src.SliderImages.FirstOrDefault().ImagePath));
         }
     }
 

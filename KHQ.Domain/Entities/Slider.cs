@@ -9,7 +9,6 @@ namespace KHQ.Domain.Entities
     public class Slider
     {
         public Guid Id { get; set; }
-        public List<SliderImages> SliderImages { get; set; }
         public string Link { get; set; }
     }
 

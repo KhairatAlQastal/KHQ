@@ -124,10 +124,10 @@
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="/">Dashboards / </a></li>
                             <li class="breadcrumb-item">Home Sections / </li>
-                            <li class="breadcrumb-item active">Base Home section</li>
+                            <li class="breadcrumb-item active">Slider section</li>
                         </ol>
                     </div>
-                    <h4 class="page-title">Base Home section</h4>
+                    <h4 class="page-title">Slider section</h4>
                 </div>
             </div>
         </div>
@@ -247,6 +247,8 @@
         };
         reader.readAsDataURL(file);
 
+        SaveImageInDB();
+
         // Store photo data
         uploadedPhotos.push({
             id: photoId,
@@ -281,6 +283,27 @@
         }
     });
 
+    function SaveImageInDB(){
+        var formData = new FormData();
+        debugger
+
+        $.ajax({
+            url: '/api/Common/SaveImages',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (result) {
+                showSuccess();
+                setTimeout(function () {
+                    location.reload();
+                }, 1500);
+            },
+            error: function (xhr, status, error) {
+                showError('Error saving section: ' + xhr.responseText);
+            }
+        });
+    }
     function updatePhotoOrder() {
         const photoElements = sortableContainer.querySelectorAll('.photo-item');
         const newOrder = [];

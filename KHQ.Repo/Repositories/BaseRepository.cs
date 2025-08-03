@@ -34,6 +34,11 @@ namespace KHQ.Repo.Repositories
             await _dbSet.AddAsync(entity);
         }
 
+        public virtual async Task AddRange(List<T> entities)
+        {
+            _dbSet.AddRange(entities);
+        }
+
         public virtual void Update(T entity)
         {
             _dbSet.Update(entity);

@@ -25,9 +25,10 @@ namespace KHQ.Portal.Service
 
             if (!Directory.Exists(wwwRootPath))
                 Directory.CreateDirectory(wwwRootPath);
-
+            var sort = 0;
             foreach (var file in images)
             {
+                sort++;
                 if (file.Length <= 0)
                     continue;
 
@@ -47,12 +48,12 @@ namespace KHQ.Portal.Service
                     F_Key = foreignKey,
                     PathLink = $"/{relativePath}",
                     ImageType = imageType,
-                    ImageName = file.FileName
+                    ImageName = file.FileName,
+                    Sort = sort
                 });
             }
 
-            return savedImages;
+            return savedImages.OrderBy(x => x.Sort).ToList();
         }
     }
-
 }
